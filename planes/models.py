@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Curator(models.Model):
     title = models.CharField(max_length=120)
+    
 
     def __str__(self):
         return self.title
@@ -31,6 +32,9 @@ class Quart(models.Model): # A1-250|A2-250|A3-250|A4-250|B1-500|B2-500|B3-500|B4
     finance_cost = models.ForeignKey(FinanceCosts, on_delete=models.DO_NOTHING, related_name="quart")
     total = models.FloatField(verbose_name="сумма по кварталу")
     title = models.CharField(max_length=50)
+
+    
+    
     def __str__(self):
         return self.title
     

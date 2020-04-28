@@ -4,7 +4,15 @@ from planes.models import Curator, CustomUser, FinanceCosts, Quart, CuratorQuart
 
 
 def plane(request):
+
     finance_costs = FinanceCosts.objects.all()
+    
+    for fin_cost in finance_costs:
+        sum_all_quart = 0
+        for quart in fin_cost.quart.all():
+            sum_all_quart += quart.total
+        fin_cost.total = sum_all_quart
+        fin_cost.save()
     # finance_costs = FinanceCosts.objects.prefetch_related('quart').all()
 
     response = {}
