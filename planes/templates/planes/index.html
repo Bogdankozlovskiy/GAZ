@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'planes/style.css' %}">
+    <title>Document</title>
+    
+</head>
+<body>
+    <div class="cantainer">
+        <table class="summary-table" border="1px">
+            <tr>
+                <th class="table-head">Статья финансирования</th>
+                <th class="table-head">Квартал 1</th>
+                <th class="table-head">Квартал 2</th>
+                <th class="table-head">Квартал 3</th>
+                <th class="table-head">Квартал 4</th>
+                <th class="table-head">Итого</th>
+            </tr>
+            {% for cost in finance_costs %}
+                <tr>
+                    <td>{{ cost.title }}</td>
+                    {% for quart in cost.quart.all %}
+                        <td>{{ quart.total }}</td>
+                    {% endfor %}
+                    <td>{{ cost.total }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        
+        
+    </div>
+    
+</body>
+</html>

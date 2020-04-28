@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 class Curator(models.Model):
     title = models.CharField(max_length=120)
 
+    def __str__(self):
+        return self.title
+    
+
 
 class CustomUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.DO_NOTHING)
@@ -18,11 +22,18 @@ class FinanceCosts(models.Model): #  A 1000      B 2000
         max_length=100
     )
 
+    def __str__(self):
+        return self.title
+    
+
 
 class Quart(models.Model): # A1-250|A2-250|A3-250|A4-250|B1-500|B2-500|B3-500|B4-500
-    finance_cost = models.ForeignKey(FinanceCosts, on_delete=models.DO_NOTHING)
+    finance_cost = models.ForeignKey(FinanceCosts, on_delete=models.DO_NOTHING, related_name="quart")
     total = models.FloatField(verbose_name="сумма по кварталу")
     title = models.CharField(max_length=50)
+    def __str__(self):
+        return self.title
+    
 
 
 class CuratorQuartCosts(models.Model): # vadim a1 100    ser a1 100
@@ -39,6 +50,10 @@ class CuratorQuartCosts(models.Model): # vadim a1 100    ser a1 100
     total = models.FloatField(
         verbose_name="деньги выделенные данному куратору в данной статье данного квартала"
     )
+
+    def __str__(self):
+        return f'Куратору {self.curator} на {self.quart} выделено {self.total}'
+    
 
 
 class PurchaseType(models.Model):
@@ -426,5 +441,5 @@ class Contract(models.Model):
         super().save(*args, **kwargs)  # TODO   contract_mode
 
 
-class Planing(models.Model):
-    pass
+
+
