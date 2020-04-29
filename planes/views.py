@@ -22,3 +22,15 @@ def plane(request):
     return render(request, './planes/index.html', response)
 
 # Create your views here.
+
+def show_all_curator(request, finance_cost_id):
+    curators = Curator.objects.filter(finance_cost=finance_cost_id)
+    response = {"curators": curators}
+    total_curat_for_all_quart = 0
+    for curator in curators:
+        total_curat_for_all_quart = 0
+        for info in curator.curat.all():
+            total_curat_for_all_quart += info.total
+        curator.total_for_all_quart = total_curat_for_all_quart
+    return render(request, './planes/curators.html', response)
+

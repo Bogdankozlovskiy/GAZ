@@ -3,5 +3,7 @@ from planes import views
 
 
 urlpatterns = [
-    path('', views.plane)
+    path('<int:finance_cost_id>/', views.show_all_curator),
+    path('', views.plane),
+
 ]

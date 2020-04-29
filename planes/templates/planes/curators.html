@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <table border="1px">
+        <tr>
+            <th>Куратор</th>
+            <th>Квартал 1</th>
+            <th>Квартал 2</th>
+            <th>Квартал 3</th>
+            <th>Квартал 3</th>
+            <th>Итого</th>
+        </tr>
+        {% for curat in curators %}
+        <tr>
+            <td>{{ curat.title }}</td>
+            {% for info in curat.curat.all %}
+                <td>{{ info.total }}</td>
+            {% endfor %}
+            <td>{{ curat.total_for_all_quart  }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% for curat in curators %}
+        <h1>{{ curat.title}}</h1>
+        {% for info in curat.curat.all %}
+            <p>{{ info.quart }}</p>
+            <p>{{ info.total }}</p>
+
+        {% endfor %}
+        
+    {% endfor %}
+</body>
+</html>

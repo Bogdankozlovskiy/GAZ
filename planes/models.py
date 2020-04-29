@@ -4,7 +4,13 @@ from django.contrib.auth.models import User
 
 class Curator(models.Model):
     title = models.CharField(max_length=120)
-    
+    finance_cost = models.ForeignKey('FinanceCosts', on_delete=models.DO_NOTHING, null=True, blank=True)
+    total_for_all_quart = models.FloatField(
+        verbose_name='сумма по одному куратору за 4 квартала',
+         null=True,
+         blank=True
+    )
+
 
     def __str__(self):
         return self.title
@@ -16,6 +22,16 @@ class CustomUser(models.Model):
     curator = models.ForeignKey(Curator, on_delete=models.DO_NOTHING)
 
 
+class Quart(models.Model): # A1-250|A2-250|A3-250|A4-250|B1-500|B2-500|B3-500|B4-500
+    finance_cost = models.ForeignKey('FinanceCosts', on_delete=models.DO_NOTHING, related_name="quart")
+    total = models.FloatField(verbose_name="сумма за  квартал")
+    title = models.CharField(max_length=50)
+
+    
+    
+    def __str__(self):
+        return self.title
+
 class FinanceCosts(models.Model): #  A 1000      B 2000
     total = models.FloatField(verbose_name="сумма 4-x кварталов")
     title = models.CharField(
@@ -23,37 +39,30 @@ class FinanceCosts(models.Model): #  A 1000      B 2000
         max_length=100
     )
 
+    
+
     def __str__(self):
         return self.title
-    
-
-
-class Quart(models.Model): # A1-250|A2-250|A3-250|A4-250|B1-500|B2-500|B3-500|B4-500
-    finance_cost = models.ForeignKey(FinanceCosts, on_delete=models.DO_NOTHING, related_name="quart")
-    total = models.FloatField(verbose_name="сумма по кварталу")
-    title = models.CharField(max_length=50)
-
-    
-    
-    def __str__(self):
-        return self.title
-    
-
 
 class CuratorQuartCosts(models.Model): # vadim a1 100    ser a1 100
     quart = models.ForeignKey(
         Quart,
         on_delete=models.DO_NOTHING,
-        verbose_name="квартал куратора"
+        verbose_name="квартал куратора",
     )
     curator = models.ForeignKey(
         Curator,
         on_delete=models.DO_NOTHING,
-        verbose_name="куратор"
+        verbose_name="куратор",
+        related_name='curat',
+        
     )
+
     total = models.FloatField(
-        verbose_name="деньги выделенные данному куратору в данной статье данного квартала"
+        verbose_name="деньги выделенные данному куратору в данной статье данного квартала",
+        
     )
+
 
     def __str__(self):
         return f'Куратору {self.curator} на {self.quart} выделено {self.total}'

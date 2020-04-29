@@ -21,7 +21,7 @@
             </tr>
             {% for cost in finance_costs %}
                 <tr>
-                    <td>{{ cost.title }}</td>
+                    <td><a href="/plane/{{ cost.id }}/">{{ cost.title }}</a></td>
                     {% for quart in cost.quart.all %}
                         <td>{{ quart.total }}</td>
                     {% endfor %}
