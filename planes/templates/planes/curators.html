@@ -26,14 +26,7 @@
         </tr>
         {% endfor %}
     </table>
-    {% for curat in curators %}
-        <h1>{{ curat.title}}</h1>
-        {% for info in curat.curat.all %}
-            <p>{{ info.quart }}</p>
-            <p>{{ info.total }}</p>
-
-        {% endfor %}
-        
-    {% endfor %}
+    <a href="{% url 'planes:add' finance_cost_id %}">Добавить куратора </a>
+   
 </body>
 </html>

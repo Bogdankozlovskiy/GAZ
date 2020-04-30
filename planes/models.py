@@ -8,7 +8,8 @@ class Curator(models.Model):
     total_for_all_quart = models.FloatField(
         verbose_name='сумма по одному куратору за 4 квартала',
          null=True,
-         blank=True
+         blank=True,
+         default= 0.0
     )
 
 
@@ -24,7 +25,7 @@ class CustomUser(models.Model):
 
 class Quart(models.Model): # A1-250|A2-250|A3-250|A4-250|B1-500|B2-500|B3-500|B4-500
     finance_cost = models.ForeignKey('FinanceCosts', on_delete=models.DO_NOTHING, related_name="quart")
-    total = models.FloatField(verbose_name="сумма за  квартал")
+    total = models.FloatField(verbose_name="сумма за  квартал по всем кураторам")
     title = models.CharField(max_length=50)
 
     
