@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from planes.models import Curator, CustomUser, FinanceCosts, Quart, CuratorQuartCosts, Contract
-from planes.forms import CuratorForm
+from planes.forms import CuratorForm, CuratorQuartCostsForm
 from django.http import HttpResponse, HttpResponseRedirect
 
 
@@ -49,11 +49,52 @@ def add_curator(request, finance_cost_id):
 
 def save_curator(request, finance_cost_id):
     cf = CuratorForm(request.POST)
+    fin_cost_obj = FinanceCosts.objects.get(pk = finance_cost_id)
+    quarts = Quart.objects.filter(finance_cost=fin_cost_obj)
     if cf.is_valid():
         obj = cf.save(commit=False)
-        obj.finance_cost = FinanceCosts.objects.get(pk = finance_cost_id)
+        obj.finance_cost = fin_cost_obj
         obj.save()
+        for i in range(4):
+            curat_quart_cost = CuratorQuartCosts()
+            curat_quart_cost.curator = obj
+            curat_quart_cost.quart = quarts[i]
+            curat_quart_cost.total = 0
+            curat_quart_cost.save()
         return redirect("/plane/" + str(finance_cost_id))
+    return HttpResponse('bad')
+
+
+def edit_cqc(request, curator_id):
+    quarts = CuratorQuartCosts.objects.filter(curator=curator_id)
+
+    cqc_form = CuratorQuartCostsForm(initial={'curator':curator_id,
+                                     'quart_0':quarts[0].total,
+                                     'quart_1':quarts[1].total,
+                                     'quart_2':quarts[2].total,
+                                     'quart_3':quarts[3].total
+                                     })
+    response = {'cqc_form': cqc_form, 'curator_id':curator_id}
+    return render(request, 'planes/edit_cqc.html', response)
+
+
+def cqc_save(request, curator_id):
+    cqc_form = CuratorQuartCostsForm(request.POST)
+    print(request.POST)
+    if cqc_form.is_valid():
+        id_fin_cost = Curator.objects.get(pk=curator_id).finance_cost.id
+        quarts = CuratorQuartCosts.objects.filter(curator=curator_id)
+        if cqc_form.cleaned_data.get('delete'):
+            for q in quarts:
+                q.delete()
+            curator = Curator.objects.get(pk=curator_id)
+            curator.delete()
+            return redirect('/plane/' + str(id_fin_cost))
+        
+        for q, q_in_form in zip(quarts, ['quart_0', 'quart_1', 'quart_2', 'quart_3']):
+            q.total = cqc_form.cleaned_data[q_in_form]
+            q.save()
+        return redirect('/plane/' + str(id_fin_cost))
     return HttpResponse('bad')
 
 
