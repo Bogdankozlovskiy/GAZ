@@ -4,14 +4,9 @@ from planes.models import Contract
 from datetime import date, timedelta
 # import locale
 
-# Create your views here.
-
-
 def index(request):
 
-    # obj_list = Contract.objects.all()
     obj_list = Contract.objects.exclude(contract_active=False)
-    # obj_list = Contract.objects.all().order_by('title')
     notes_list = []
     today = date.today()
 
@@ -19,7 +14,6 @@ def index(request):
     # locale.setlocale(locale.LC_ALL, "ru")
 
     for obj in obj_list:
-
 
         # проверка, чтобы фактической загрузки еще не было
         if (obj.fact_load_date_ASEZ is None):
@@ -48,7 +42,6 @@ def index(request):
                         "date": (obj.plan_load_date_ASEZ-timedelta(30)),
                         "text": 'До загрузки в АСЭЗ договора < ' + obj.title + ' > осталось 30 дней',
                     })
-
 
         # проверка, чтобы фактического подписания еще не было
         if (obj.fact_sign_date is None):
