@@ -297,6 +297,22 @@ class Contract(models.Model):
         blank=True,
         null=True
     )
+    featured_note_plan_load_date_ASEZ = models.BooleanField(
+        default=False,
+        verbose_name="Важный статус уведомления о Планируемой дате загрузки договора в АСЭЗ"
+    )
+    featured_note_plan_sign_date = models.BooleanField(
+        default=False,
+        verbose_name="Важный статус уведомления о Дате заключения договора"
+    )
+    featured_note_plan_pay_date = models.BooleanField(
+        default=False,
+        verbose_name="Важный статус уведомления о Дате оплаты договора"
+    )
+    featured_note_end_time = models.BooleanField(
+        default=False,
+        verbose_name="Важный статус уведомления о Сроке действия договора"
+    )
 
     def __str__(self):
         try:
