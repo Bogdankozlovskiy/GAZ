@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.apps import apps
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from .forms import (
     LoginForm,
     RegisterForm,
@@ -16,7 +16,8 @@ from .forms import (
 )
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from django.contrib.auth.models import User, Permission
+# from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import Permission
 from django.core.mail import send_mail
 from django.views import View
 from datetime import date
@@ -25,8 +26,8 @@ from .models import (
     Contract,
     SumsBYN,
     SumsRUR,
-    UserActivityJournal,
-    Curator, 
+    # UserActivityJournal,
+    # Curator,
     FinanceCosts, 
     Planning,
     ContractType,
@@ -39,6 +40,7 @@ from .models import (
     ActivityForm,
     Currency
 )
+from administration.models import Curator, UserActivityJournal
 from django.urls import reverse
 import json
 from django.forms import formset_factory, modelformset_factory
@@ -48,6 +50,7 @@ from decimal import *
 import pandas as pd
 import numpy as np
 
+User = get_user_model()
 
 user_rights = {}
 user_rights['lawyers'] = [

@@ -1,112 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.shortcuts import reverse
-from djmoney.models.fields import MoneyField
-
-
-class Curator(models.Model):
-    class Meta:
-        verbose_name = "Куратор (Подразделение)"
-        verbose_name_plural = "Кураторы (Подразделения)"
-
-    title = models.CharField(
-        max_length=120,
-        verbose_name="Куратор"
-    )
-
-    def __str__(self):
-        return self.title.__str__()
-
-
-class UserTypes(models.Model):
-    class Meta:
-        verbose_name = "Тип пользователя"
-        verbose_name_plural = "Типы пользователя"
-
-    title = models.CharField(
-        max_length=120,
-        verbose_name="Тип пользователя",
-        help_text="Администратор, Куратор, БПиЭА, Пользователь, Экономист, Спкциалист АСЭЗ, Юрист"
-    )
-
-    def __str__(self):
-        return self.title.__str__()
-
-
-class CustomUser(models.Model):
-    class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
-
-    user = models.OneToOneField(
-        User,
-        on_delete=models.DO_NOTHING,
-        verbose_name="Пользователь")
-    curator = models.ForeignKey(
-        Curator,
-        verbose_name="Подразделение (Куратор)",
-        on_delete=models.DO_NOTHING
-    )
-    email = models.EmailField()
-    name = models.CharField(
-        max_length=150,
-        verbose_name="Фамилия, Имя, Отчество"
-    )
-    position = models.CharField(
-        max_length=200,
-        verbose_name="Должность",
-        null=True,
-        blank=True
-    )
-    user_type = models.ForeignKey(
-        UserTypes,
-        verbose_name="Тип пользователя (Пользователь, Администратор, Куратор, Суперпользователь, БПиЭА, Юрист, Экономист, Специалист АСЭЗ)",
-        on_delete=models.DO_NOTHING
-    )
-    blocked_status = models.BooleanField(
-        default=True,
-        verbose_name="Активный пользователь/Заблокированный"
-    )
-
-    def __str__(self):
-        return self.user.__str__()
-
-
-class UserActivityJournal(models.Model):
-    class Meta:
-        verbose_name = 'Журнал действий пользователя'
-        verbose_name_plural = 'Журналы действий пользователя'
-
-    user = models.ForeignKey(
-        User,
-        verbose_name="Пользователь",
-        on_delete=models.CASCADE
-    )
-    date_time_of_activity = models.DateTimeField(
-        verbose_name="Дата и время работы пользователя в системе",
-        auto_now_add=True
-    )
-    activity = models.CharField(
-        max_length=200,
-        verbose_name="Действия пользователя в системе",
-        blank=True,
-        null=True
-    )
-    clicks = models.PositiveIntegerField(
-        verbose_name="Количество кликов пользователя",
-        default=0
-    )
-    activity_system_module = models.CharField(
-        max_length=100,
-        verbose_name="Раздел системы",
-        blank=True
-    )
-
-    def __str__(self):
-        try:
-            return 'Журнал действий пользователя: {0}'.format(self.user)
-        except:
-            return 'Ошибка в данных'
+# from djmoney.models.fields import MoneyField
+from administration.models import Curator
 
 
 class FinanceCosts(models.Model):
@@ -214,7 +109,8 @@ class ContractType(models.Model):
 
     title = models.CharField(
         max_length=150,
-        help_text="Тип договора(Центр, Филиал)"
+        help_text="Тип договора(Центр, Филиал)",
+        verbose_name="Тип договора"
     )
 
     def __str__(self):
@@ -228,7 +124,8 @@ class ContractMode(models.Model):
 
     title = models.CharField(
         max_length=150,
-        help_text="Вид договора (Основной, доп.соглашение)"
+        help_text="Вид договора (Основной, доп.соглашение)",
+        verbose_name = "Вид договора"
     )
 
     def __str__(self):
@@ -969,4 +866,3 @@ class Planning(models.Model):
         self.q_6_months = self.q_1 + self.q_2
         self.q_9_months = self.q_1 + self.q_2 + self.q_3
         super().save(*args, **kwargs)
-
