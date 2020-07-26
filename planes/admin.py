@@ -1,9 +1,9 @@
 from django.contrib import admin
 from .models import (
-    Curator,
-    UserTypes,
-    CustomUser,
-    UserActivityJournal,
+    # Curator,
+    # UserTypes,
+    # CustomUser,
+    # UserActivityJournal,
     FinanceCosts,
     PurchaseType,
     ActivityForm,
@@ -25,7 +25,7 @@ from .models import (
 )
 
 models = (
-    Curator,
+    # Curator,
     # UserTypes,
     # UserSub,
     # CustomUser,
@@ -45,9 +45,9 @@ models = (
     # Planning,
     # PlanningYearFunding,
     # YearPeriod,
-    UserTypes,
-    CustomUser,
-    UserActivityJournal,
+    # UserTypes,
+    # CustomUser,
+    # UserActivityJournal,
     FinanceCosts,
     PurchaseType,
     ActivityForm,

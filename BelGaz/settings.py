@@ -173,7 +173,7 @@ EMAIL_HOST_USER = 'gazprombelgaz@gmail.com'
 EMAIL_HOST_PASSWORD = 'beltransgaz'
 EMAIL_USE_TLS = True
 
-
+AUTH_USER_MODEL = 'administration.CustomUser'
 
 
 

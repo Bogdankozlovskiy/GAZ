@@ -2,17 +2,18 @@ from django.forms import ModelForm, TextInput
 from planes.models import (
     FinanceCosts,
     ActivityForm,
-    Curator,
+    # Curator,
     ContractType,
     ContractMode,
     PurchaseType,
     StateASEZ,
     Counterpart,
     ContractStatus,
-    UserTypes,
+    # UserTypes,
     NumberPZTRU,
     Currency,
 )
+from administration.models import UserTypes, Curator
 
 class CatalogFinanceCostsForm(ModelForm):
     class Meta:

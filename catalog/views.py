@@ -2,17 +2,18 @@ from django.shortcuts import render
 from planes.models import (
     FinanceCosts,
     ActivityForm,
-    Curator,
+    # Curator,
     ContractType,
     ContractMode,
     PurchaseType,
     StateASEZ,
     Counterpart,
     ContractStatus,
-    UserTypes,
+    # UserTypes,
     NumberPZTRU,
     Currency,
 )
+from administration.models import UserTypes, Curator
 from . import forms
 from django.forms import modelformset_factory
 
